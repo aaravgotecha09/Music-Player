@@ -1,0 +1,16 @@
+# Render Blueprint (optional). Creates the C backend as a Docker web service.
+# A disk keeps uploads and playlists across restarts and redeploys. Disks need a paid
+# instance type; without one, the service's filesystem resets on every deploy.
+services:
+  - type: web
+    name: echo-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /api/health
+    disk:
+      name: echo-data
+      mountPath: /data
+      sizeGB: 1
